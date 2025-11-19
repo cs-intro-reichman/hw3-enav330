@@ -23,15 +23,16 @@ public class Algebra {
    		System.out.println(sqrt(76123));
 	}  
 
-// פונקציית עזר פנימית לטיפול בערך מוחלט (Abs)
+    // פונקציית עזר פנימית לטיפול בערך מוחלט (Abs)
     private static int internalAbs(int a) {
         if (a < 0) {
-            // משתמש בפונקציית minus כדי להפוך את השלילי לחיובי
+            // הופך לשלילי-שלילי. קריאה בטוחה: minus(0, a) אינה הבעיה, אלא מימושה!
             return minus(0, a); 
         }
         return a;
     }
 
+    // ... (פונקציית main) ...
 
     // Returns x1 + x2
     public static int plus(int x1, int x2) {
@@ -48,13 +49,30 @@ public class Algebra {
         return x1;
     }
 
-    // Returns x1 - x2
+    // Returns x1 - x2 (תיקון קריטי)
     public static int minus(int x1, int x2) {
-        // חיסור הוא חיבור להופכי החיבורי: x1 + (-x2)
-        // minus(0, x2) מחשב את -x2
-        return plus(x1, minus(0, x2));
-    }
+        // הדרך הנכונה: נשתמש בחיבור להופכי החיבורי (x1 + (-x2)). 
+        // במקום להשתמש ב-minus(0, x2), נשתמש ב-plus וב-++ / -- בצורה נכונה.
 
+        int absX2 = internalAbs(x2);
+        
+        // אם x2 חיובי, אנו מחסרים (x1 - x2).
+        if (x2 >= 0) {
+            for(int i = 0; i < absX2; i++) {
+                 x1--; // הפחתה ישירה
+            }
+            return x1;
+        } 
+        // אם x2 שלילי (כמו x2=-5), אנו מחברים (x1 - (-5) = x1 + 5).
+        else {
+             for(int i = 0; i < absX2; i++) {
+                 x1++; // חיבור ישיר
+            }
+            return x1;
+        }
+    }
+    
+    // ... שאר הפונקציות נשארות כפי שהן (מכיוון שהן תלויות ב-plus/minus) ...
 
     // Returns x1 * x2
     public static int times(int x1, int x2) {
@@ -135,7 +153,8 @@ public class Algebra {
     }   
 
     // Returns the integer part of sqrt(x) 
-    public static int sqrt(int x) {
+    public static int sqrt(int x) 
+	{
         if (x < 0) return 0;
         if (x == 0) return 0;
 
@@ -150,4 +169,5 @@ public class Algebra {
         // מחזירים g-1 כי g*g כבר גדול מ-x
         return minus(g, 1); 
     }
+
 }
