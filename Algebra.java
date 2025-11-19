@@ -25,14 +25,20 @@ public class Algebra {
 
 	// Returns x1 + x2
 	public static int plus(int x1, int x2) {
-		for(int i=0; i<= x2; i++)
-		{
-			 x1++;
-				
-		}
-		
-		return x1;
-	}
+	int absX2 = x2; 
+    boolean isNegative = x2 < 0;
+
+    if (isNegative) absX2 = -x2; 
+
+    for(int i = 0; i < absX2; i++) {
+        if (isNegative) {
+            x1--; 
+        } else {
+            x1++; 
+        }
+    }
+    return x1;
+}
 
 	// Returns x1 - x2
 	public static int minus(int x1, int x2) {
@@ -70,19 +76,31 @@ public class Algebra {
 }
 	
 	public static int div(int x1, int x2) {
-	if (x2 == 0) return 0; 
-    
+	if (x2 == 0) return 0;
+	int absx1=x1;
+	int absx2=x2;
     int result = 0;
-    
-
-    while (x1 >= x2) {
-        x1 = minus(x1, x2); 
-        result++;         
-    }
-
-    return result;
+	if(x1<0	)
+	{
+		absx1= times(x1,-1);
+	}
+			if(x2<0	)
+	{
+		absx2= times(x2,-1);
 	}
 
+    while (absx1 >= absx2)
+	{
+        absx1 = minus(absx1,absx2); 
+        result++;         
+    }
+    
+    if ((x1 < 0 && x2 > 0) || (x1 > 0 && x2 < 0)) {
+        return Algebra.minus(0, result); 
+    } else {
+        return result;
+    }
+}
 	// Returns x1 % x2
 	public static int mod(int x1, int x2) {
 		if(x2==0){
