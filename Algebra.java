@@ -23,18 +23,26 @@ public class Algebra {
    		System.out.println(sqrt(76123));
 	}  
 
-	// Returns x1 + x2
-	// Returns x1 + x2
+// פונקציית עזר פנימית לטיפול בערך מוחלט (Abs)
+    private static int internalAbs(int a) {
+        if (a < 0) {
+            // משתמש בפונקציית minus כדי להפוך את השלילי לחיובי
+            return minus(0, a); 
+        }
+        return a;
+    }
+
+
+    // Returns x1 + x2
     public static int plus(int x1, int x2) {
         int absX2 = internalAbs(x2);
         boolean isNegative = x2 < 0;
 
-        // תיקון: הלולאה רצה absX2 פעמים בדיוק (i < absX2)
         for(int i = 0; i < absX2; i++) {
             if (isNegative) {
-                x1--; // חיסור 1
+                x1--; 
             } else {
-                x1++; // חיבור 1
+                x1++; 
             }
         }
         return x1;
@@ -43,8 +51,7 @@ public class Algebra {
     // Returns x1 - x2
     public static int minus(int x1, int x2) {
         // חיסור הוא חיבור להופכי החיבורי: x1 + (-x2)
-        // במקום לולאה חדשה, נשתמש ב-plus(x1, -x2).
-        // כדי לקבל את -x2, נשתמש ב-minus(0, x2)
+        // minus(0, x2) מחשב את -x2
         return plus(x1, minus(0, x2));
     }
 
@@ -58,13 +65,11 @@ public class Algebra {
         int absX2 = internalAbs(x2);
         
         // קובעים את הסימן הסופי
-        // אם הסימנים שונים, התוצאה שלילית
         boolean isNegativeResult = (x1 < 0 && x2 >= 0) || (x1 >= 0 && x2 < 0);
         
         // הלולאה רצה על הערך המוחלט של X2
         for(int i = 0; i < absX2; i++)
         { 
-            // מחברים את הערך המוחלט של X1
             result = plus(result, absX1);
         }
         
@@ -95,7 +100,6 @@ public class Algebra {
         
         int result = 0;
         
-        // הגדרת absX1, absX2 - הפתרון לבעיית ה-Scope
         int absX1 = internalAbs(x1);
         int absX2 = internalAbs(x2);
 
@@ -137,13 +141,13 @@ public class Algebra {
 
         int g = 1;
         
-        // הלולאה רצה כל עוד g*g <= x
+        // לולאת חיפוש סדרתי
         while (times(g, g) <= x) 
         { 
             g = plus(g, 1); 
         }
 
-        // כשהלולאה נעצרת, g גדול מדי ב-1
+        // מחזירים g-1 כי g*g כבר גדול מ-x
         return minus(g, 1); 
     }
 }
