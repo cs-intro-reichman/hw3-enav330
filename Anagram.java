@@ -28,22 +28,68 @@ public class Anagram {
 
 	// Returns true if the two given strings are anagrams, false otherwise.
 	public static boolean isAnagram(String str1, String str2) {
-		// Replace the following statement with your code
-		return false;
-	}
+	String pStr1 = preProcess(str1);
+    String pStr2 = preProcess(str2);
+        if (pStr1.length() != pStr2.length()) {
+            return false;
+        }
+    
+        for (int i = 0; i < pStr1.length(); i++) {
+            char targetChar = pStr1.charAt(i);
+            boolean found = false;
+            
+            for (int j = 0; j < pStr2.length(); j++) {
+                if (pStr2.charAt(j) == targetChar) {
+                    
+                    pStr2 = pStr2.substring(0, j) + pStr2.substring(j + 1);
+                    found = true;
+                    break; 
+                }
+            }
+            if (!found) {
+                return false;
+            }
+            
+
+        }
+        
+        return pStr2.length() == 0;
+    }
+	
 	   
 	// Returns a preprocessed version of the given string: all the letter characters are converted
 	// to lower-case, and all the other characters are deleted, except for spaces, which are left
 	// as is. For example, the string "What? No way!" becomes "whatnoway"
 	public static String preProcess(String str) {
-		// Replace the following statement with your code
-		return "";
+		str = str.toLowerCase();
+        
+        String result = "";
+        
+        for (int i = 0; i < str.length(); i++) {
+            char currentChar = str.charAt(i);
+            
+            if (currentChar >= 'a' && currentChar <= 'z') {
+                result += currentChar;
+            }
+        }
+        
+        return result;
 	} 
 	   
 	// Returns a random anagram of the given string. The random anagram consists of the same
 	// characters as the given string, re-arranged in a random order. 
 	public static String randomAnagram(String str) {
-		// Replace the following statement with your code
-		return "";
+		String remainingChars = str; 
+        String result = "";
+        while (remainingChars.length() > 0) 
+		{
+            int index = (int) (Math.random() * remainingChars.length()); 
+            char randomChar = remainingChars.charAt(index);
+            result += randomChar;
+            remainingChars = remainingChars.substring(0, index) + remainingChars.substring(index + 1);
+        }
+        
+        return result;
+    
 	}
 }
